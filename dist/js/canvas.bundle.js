@@ -109,8 +109,8 @@ var c = canvas.getContext('2d');
 canvas.width = innerWidth;
 canvas.height = innerHeight;
 var mouse = {
-  x: innerWidth / 2,
-  y: innerHeight / 2
+  x: 0,
+  y: 0
 };
 var colors = ['#2185C5', '#7ECEFD', '#FFF6E5', '#FF7F66']; // Event Listeners
 
@@ -124,9 +124,9 @@ addEventListener('resize', function () {
   init();
 }); // Objects
 
-var _Object = /*#__PURE__*/function () {
-  function Object(x, y, radius, color) {
-    _classCallCheck(this, Object);
+var Circle = /*#__PURE__*/function () {
+  function Circle(x, y, radius, color) {
+    _classCallCheck(this, Circle);
 
     this.x = x;
     this.y = y;
@@ -134,7 +134,7 @@ var _Object = /*#__PURE__*/function () {
     this.color = color;
   }
 
-  _createClass(Object, [{
+  _createClass(Circle, [{
     key: "draw",
     value: function draw() {
       c.beginPath();
@@ -150,26 +150,34 @@ var _Object = /*#__PURE__*/function () {
     }
   }]);
 
-  return Object;
+  return Circle;
 }(); // Implementation
 
 
-var objects;
+var circle1;
+var circle2;
 
 function init() {
-  objects = [];
-
-  for (var i = 0; i < 400; i++) {// objects.push()
-  }
+  // circles = []
+  circle1 = new Circle(300, 300, 100, 'black');
+  circle2 = new Circle(undefined, undefined, 30, 'red');
 } // Animation Loop
 
 
 function animate() {
   requestAnimationFrame(animate);
   c.clearRect(0, 0, canvas.width, canvas.height);
-  c.fillText('HTML CANVAS BOILERPLATE', mouse.x, mouse.y); // objects.forEach(object => {
-  //  object.update()
-  // })
+  circle1.update();
+  circle2.x = mouse.x;
+  circle2.y = mouse.y;
+  circle2.update();
+  var distance = _utils__WEBPACK_IMPORTED_MODULE_0___default.a.distance(circle1.x, circle1.y, circle2.x, circle2.y);
+
+  if (distance < circle1.radius + circle2.radius) {
+    circle1.color = 'red';
+  } else {
+    circle1.color = 'black';
+  }
 }
 
 init();
